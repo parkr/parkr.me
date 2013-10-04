@@ -6,7 +6,7 @@ module Parkr
   class Db
     attr_accessor :username, :host, :port, :db_name
 
-    def initialize(file = "mysql2.toml")
+    def initialize(file = "db.toml")
       config_file = File.expand_path(file)
       configs = TOML.load_file(config_file)
       self.username = configs["username"]

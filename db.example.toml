@@ -1,0 +1,4 @@
+host     = "127.0.0.1"
+username = "my-username"
+password = "mypasswordisreallyfreakinglong"
+db_name  = "shorten_me_baby_oh_yes"
