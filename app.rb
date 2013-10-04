@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `urls` (
 
   class App < Guillotine::App
     db = Parkr::Db.new.connection
-    adapter = Guillotine::Adapters::SequelAdapter.new(db)
+    adapter = Guillotine::SequelAdapter.new(db)
     set :service => Guillotine::Service.new(adapter)
 
     get '/' do
