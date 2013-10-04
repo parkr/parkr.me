@@ -5,19 +5,26 @@ require 'guillotine'
 
 module Parkr
   class Db
-    attr_accessor :username, :host, :port, :db_name
+    attr_accessor :username, :host, :port, :db_name, :password
 
     def initialize(file = "db.toml")
       config_file = File.expand_path(file)
       configs = TOML.load_file(config_file)
-      self.username = configs["username"]
-      self.host     = configs["host"]
-      self.port     = configs["port"]
-      self.db_name  = configs["db_name"]
+      self.username = configs["username"] || 'root'
+      self.password = configs["password"] || nil
+      self.host     = configs["host"]     || '127.0.0.1'
+      self.port     = configs["port"]     || '3306'
+      self.db_name  = configs["db_name"]  || 'guillotine'
+    end
+
+    def login
+      info = username.dup
+      info << ":#{password}" if password
+      info
     end
 
     def connection
-      @connection ||= Sequel.connect("mysql2://#{username}@#{host}:#{port}/#{db_name}")
+      @connection ||= Sequel.connect("mysql2://#{login}@#{host}:#{port}/#{db_name}")
     end
     
     def setup
