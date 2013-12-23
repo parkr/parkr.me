@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `urls` (
   end
 
   class App < Guillotine::App
-    db = Parkr::Db.new.connection
+    db = ENV["DATABASE_URL"] || Parkr::Db.new.connection
     adapter = Guillotine::SequelAdapter.new(db)
     set :service => Guillotine::Service.new(adapter)
 
