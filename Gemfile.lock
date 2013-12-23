@@ -4,6 +4,8 @@ GEM
     addressable (2.2.8)
     backports (3.3.4)
     blankslate (2.1.2.4)
+    daemons (1.1.9)
+    eventmachine (1.0.3)
     guillotine (1.4.0)
       addressable (~> 2.2.6)
       sinatra (~> 1.2.6)
@@ -16,6 +18,10 @@ GEM
       backports
       rack (~> 1.1, < 1.5)
       tilt (>= 1.2.2, < 2.0)
+    thin (1.6.1)
+      daemons (>= 1.0.9)
+      eventmachine (>= 1.0.0)
+      rack (>= 1.0.0)
     tilt (1.4.1)
     toml (0.0.4)
       parslet
@@ -27,4 +33,5 @@ DEPENDENCIES
   guillotine
   mysql2
   sequel
+  thin
   toml
