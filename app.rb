@@ -24,7 +24,11 @@ module Parkr
     end
 
     def connection
-      @connection ||= Sequel.connect("mysql2://#{login}@#{host}:#{port}/#{db_name}")
+      @connection ||= if ENV.has_key?("DATABASE_URL")
+        Sequel.connect(ENV["DATABASE_URL"])
+      else
+        Sequel.connect("mysql2://#{login}@#{host}:#{port}/#{db_name}")
+      end
     end
     
     def setup
@@ -40,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `urls` (
   end
 
   class App < Guillotine::App
-    db = ENV["DATABASE_URL"] || Parkr::Db.new.connection
+    db = Parkr::Db.new.connection
     puts "Using database connection: #{db}"
     adapter = Guillotine::SequelAdapter.new(db)
     set :service => Guillotine::Service.new(adapter)
