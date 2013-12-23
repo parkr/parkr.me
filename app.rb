@@ -8,13 +8,19 @@ module Parkr
     attr_accessor :username, :host, :port, :db_name, :password
 
     def initialize(file = "db.toml")
-      config_file = File.expand_path(file)
-      configs = TOML.load_file(config_file)
-      self.username = configs["username"] || 'root'
-      self.password = configs["password"] || nil
-      self.host     = configs["host"]     || '127.0.0.1'
-      self.port     = configs["port"]     || '3306'
-      self.db_name  = configs["db_name"]  || 'guillotine'
+      unless env_database
+        config_file = File.expand_path(file)
+        configs = TOML.load_file(config_file)
+        self.username = configs["username"] || 'root'
+        self.password = configs["password"] || nil
+        self.host     = configs["host"]     || '127.0.0.1'
+        self.port     = configs["port"]     || '3306'
+        self.db_name  = configs["db_name"]  || 'guillotine'
+      end
+    end
+
+    def env_database
+      ENV["DATABASE_URL"]
     end
 
     def login
@@ -24,8 +30,8 @@ module Parkr
     end
 
     def connection
-      @connection ||= if ENV.has_key?("DATABASE_URL")
-        Sequel.connect(ENV["DATABASE_URL"])
+      @connection ||= if env_database
+        Sequel.connect(env_database)
       else
         Sequel.connect("mysql2://#{login}@#{host}:#{port}/#{db_name}")
       end
