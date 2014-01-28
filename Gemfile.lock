@@ -9,9 +9,9 @@ GEM
     guillotine (1.4.0)
       addressable (~> 2.2.6)
       sinatra (~> 1.2.6)
-    mysql2 (0.3.14)
     parslet (1.5.0)
       blankslate (~> 2.0)
+    pg (0.17.1)
     rack (1.4.5)
     sequel (4.3.0)
     sinatra (1.2.9)
@@ -31,7 +31,7 @@ PLATFORMS
 
 DEPENDENCIES
   guillotine
-  mysql2
+  pg
   sequel
   thin
   toml
